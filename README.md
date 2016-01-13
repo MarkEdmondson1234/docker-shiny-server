@@ -95,11 +95,11 @@ Launch with docker image predone via configuration.yaml
 * https://cloud.google.com/compute/docs/containers/container_vms
 
 ```
-gcloud compute instances create containervm-test-1 \
-    --image container-vm \
-    --metadata-from-file google-container-manifest=containers.yaml \
-    --zone us-central1-a \
-    --machine-type f1-micro
+gcloud --project iih-tools-analytics \
+  compute instances create r-shiny-server \
+  --image container-vm \
+  --metadata-from-file google-container-manifest=containers.yaml \
+  --zone europe-west1-b
 ```
 
 containers.yaml
