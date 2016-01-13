@@ -35,10 +35,11 @@ gcloud --project iih-tools-analytics \
   --zone europe-west1-b
 
 gcloud --project iih-tools-analytics \
+  compute firewall-rules create shiny-server --allow tcp:3838
+  
+gcloud --project iih-tools-analytics \
   compute ssh --zone europe-west1-b r-shiny-server
 
-gcloud --project iih-tools-analytics \
-  compute firewall-rules create shiny-server --allow tcp:3838
 ```
 
 Now should be logged in to GCE
@@ -131,7 +132,22 @@ spec:
       restartPolicy: Always
 ```
 
+## OpenCPU and RStudio
 
+```
+gcloud --project iih-tools-analytics   compute instances create r-studio-opencpu   --image container-vm   --zone europe-west1-b
 
+gcloud --project iih-tools-analytics compute firewall-rules create opencpu --allow tcp:8004
+
+gcloud --project iih-tools-analytics \
+  compute ssh --zone europe-west1-b r-studio-opencpu
+```
+Logged in...
+
+```
+docker run -d -t -p 80:80 -p 8004:8004 opencpu/rstudio
+```
+
+Available on `http://104.155.15.103:8004/ocpu/test/`
 
 
