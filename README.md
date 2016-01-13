@@ -105,6 +105,7 @@ gcloud compute instances create containervm-test-1 \
 containers.yaml
 
 * guide: http://kubernetes.io/v1.1/docs/user-guide/simple-yaml.html
+* http://kubernetes.io/v1.1/docs/user-guide/configuring-containers.html
 
 ```
 apiVersion: v1
