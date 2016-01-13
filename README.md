@@ -109,18 +109,23 @@ containers.yaml
 
 ```
 apiVersion: v1
-kind: Pod
+kind: ReplicationController
 metadata:
-  name: simple-echo
+  name: shiny-server
 spec:
-  containers:
-    - name: simple-echo
-      image: gcr.io/google-containers/busybox
-      command: ['nc', '-p', '8080', '-l', '-l', '-e', 'echo', 'hello world!']
-      imagePullPolicy: Always
-      ports:
-        - containerPort: 8080
-          hostPort: 8080
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: shiny-server
+    spec:
+      containers:
+      - name: shiny-server
+        image: markedmondson1234/shiny-server
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3838
+      restartPolicy: Always
 ```
 
 
