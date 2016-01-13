@@ -50,7 +50,10 @@ sudo docker run hello-world
 sudo apt-get update
 
 ## why does this not work on port 80?
-sudo docker run -d -p 3838:3838 \
+## runs internally, configure virtual hosts on Apache
+sudo docker run -d \
+        --restart=always\
+        -p 3838:3838 \
         -v /srv/shinyapps/:/srv/shiny-server/ \
         -v /srv/shinylog/:/var/log/ \
         markedmondson1234/shiny-server
