@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shiny-server
+spec:
+  containers:
+    - name: shiny-server
+      image: markedmondson1234/shiny-server
+      command: ['nc', '-p', '3838', '-l', '-l', '-e', 'echo', 'hello world!']
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 3838
+          hostPort: 3838
