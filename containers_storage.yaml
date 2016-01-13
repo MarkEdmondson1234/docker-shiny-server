@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shiny-server
+spec:
+  containers:
+    - name: shiny-server
+      image: markedmondson1234/shiny-server
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 3838
+          hostPort: 3838
+  volumes:
+    - name: local-gce-file
+      hostPath: "/srv/shinyapps/"
+    
+    # This GCE PD must already exist.
+    - name: persitent-gce-disk
+      gcePersistentDisk:
+      pdName: my-data-disk
+      fsType: ext4
+    
+    - name: git-volume
+    gitRepo:
+      repository: "git@somewhere:me/my-git-repository.git"
+      revision: "22f1d8406d464b0c0874075539c1f2e96c253775"
+
