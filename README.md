@@ -24,7 +24,9 @@ Nano
 
 ## Use on Google Compute Engine
 
-* From https://docs.docker.com/engine/installation/google/ and https://hub.docker.com/r/rocker/shiny/
+* https://docs.docker.com/engine/installation/google/
+* https://hub.docker.com/r/rocker/shiny/
+* https://cloud.google.com/compute/docs/containers/container_vms
 
 ```
 gcloud --project iih-tools-analytics \
