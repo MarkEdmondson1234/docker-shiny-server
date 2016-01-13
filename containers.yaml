@@ -1,12 +1,18 @@
 apiVersion: v1
-kind: Pod
+kind: ReplicationController
 metadata:
   name: shiny-server
 spec:
-  containers:
-    - name: shiny-server
-      image: markedmondson1234/shiny-server
-      imagePullPolicy: Always
-      ports:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: shiny-server
+    spec:
+      containers:
+      - name: shiny-server
+        image: markedmondson1234/shiny-server
+        imagePullPolicy: IfNotPresent
+        ports:
         - containerPort: 3838
-          hostPort: 3838
+      restartPolicy: Always
