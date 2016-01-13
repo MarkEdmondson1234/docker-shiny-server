@@ -89,3 +89,37 @@ sudo gcloud --project iih-tools-analytics \
 * RMarkdown apps then available at `http://instance-ip:3838/folder-name/app-name`
 
 
+## Launching new GCE instances
+
+Launch with docker image predone via configuration.yaml
+
+```
+gcloud compute instances create containervm-test-1 \
+    --image container-vm \
+    --metadata-from-file google-container-manifest=containers.yaml \
+    --zone us-central1-a \
+    --machine-type f1-micro
+```
+
+containers.yaml
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-echo
+spec:
+  containers:
+    - name: simple-echo
+      image: gcr.io/google-containers/busybox
+      command: ['nc', '-p', '8080', '-l', '-l', '-e', 'echo', 'hello world!']
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+```
+
+
+
+
+
