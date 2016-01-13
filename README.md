@@ -92,6 +92,7 @@ sudo gcloud --project iih-tools-analytics \
 ## Launching new GCE instances
 
 Launch with docker image predone via configuration.yaml
+* https://cloud.google.com/compute/docs/containers/container_vms
 
 ```
 gcloud compute instances create containervm-test-1 \
@@ -102,6 +103,8 @@ gcloud compute instances create containervm-test-1 \
 ```
 
 containers.yaml
+
+* guide: http://kubernetes.io/v1.1/docs/user-guide/simple-yaml.html
 
 ```
 apiVersion: v1
