@@ -75,6 +75,7 @@ sudo docker exec -it focused_hawking bash
 ## install stuff under sudo to make sure all users can use it
 sudo su - -c "R -e \"install.packages('shiny', repos='http://cran.rstudio.com/')\""
 sudo su - -c "R -e \"devtools::install_github('MarkEdmondson1234/googleAuthR')\""
+sudo su - -c "R -e \"devtools::install_github('MarkEdmondson1234/privatePackage', auth_token='YOUR_PAT_TOKEN')\""
 ```
 
 ## Running Shinyapps / RMarkdown
