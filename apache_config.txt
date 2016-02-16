@@ -1,0 +1,71 @@
+## need to backport Apache 2.4
+apt-get purge apache2-*
+apt-get autoremove --purge
+echo "deb http://www.d7031.de/debian wheezy-experimental main" > /etc/apt/sources.list.d/apache-backport.list
+apt-key adv --keyserver keyserver.ubuntu.net --recv-key 9EB5E8A3DF17D0B3
+apt-get update
+apt-get dist-upgrade
+apt-get install apache2
+
+# Enable the module (also make any configuration changes you need)
+a2enmod proxy proxy_http proxy_wstunnel
+a2dismod suexec cgi include userdir
+
+
+#### SECURITY
+
+sudo htpasswd -c /etc/apache2/.htpasswd theusername
+
+## create a webpage to display at http(s)://your.server.ip/
+## below creates homepage with links to the report
+echo '<!doctype html><html><body><h1>XXX Reporting</h1><a href=/reports/xxxx/>Reporting Draft 3</a></body></html>' | sudo tee /var/www/html/index.html
+
+
+## see apache2_config file
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+## ...or do this below
+
+echo '<VirtualHost *:80>
+## /etc/apache2/sites-enabled/000-default.conf
+        ServerAdmin mark@iih
+
+        DocumentRoot /var/www/html
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+
+        <Proxy *>
+                AuthType Basic
+                AuthName "Restricted"
+                AuthUserFile /etc/apache2/.htpasswd
+                Require valid-user
+                Allow from localhost
+                Satisfy Any
+        </Proxy>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        ProxyPassMatch ^/reports/(.+)/websocket ws://localhost:3838/$1/websocket
+        ProxyPass /reports/ http://localhost:3838/ 
+        ProxyPassReverse /reports/ http://localhost:3838/ 
+        ProxyRequests Off
+
+</VirtualHost>' | sudo tee /etc/apache2/sites-enabled/000-default.conf
+
+
+## restart server
+sudo service apache2 restart
+
+## users found in 
+sudo cat /etc/apache2/.htpasswd
+
+## error log found in
+cat /var/log/apache2/error.log

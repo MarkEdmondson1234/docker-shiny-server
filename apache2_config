@@ -1,0 +1,33 @@
+<VirtualHost *:80>
+## /etc/apache2/sites-enabled/000-default.conf
+        ServerAdmin mark@iih
+
+        DocumentRoot /var/www/html
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+
+        <Proxy *>
+                AuthType Basic
+                AuthName "Restricted"
+                AuthUserFile /etc/apache2/.htpasswd
+                Require valid-user
+                Allow from localhost
+                Satisfy Any
+        </Proxy>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        ProxyPassMatch ^/reports/(.+)/websocket ws://localhost:3838/$1/websocket
+        ProxyPass /reports/ http://localhost:3838/ 
+        ProxyPassReverse /reports/ http://localhost:3838/ 
+        ProxyRequests Off
+
+</VirtualHost>
