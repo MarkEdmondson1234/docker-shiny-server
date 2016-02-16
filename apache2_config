@@ -8,14 +8,17 @@
                 AllowOverride None
         </Directory>
 
-        <Proxy *>
+        <Location />
+        Order allow,deny
+        Allow from localhost
+
                 AuthType Basic
                 AuthName "Restricted"
                 AuthUserFile /etc/apache2/.htpasswd
                 Require valid-user
-                Allow from localhost
+                
                 Satisfy Any
-        </Proxy>
+        </Location>
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
 
